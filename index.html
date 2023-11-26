@@ -6,32 +6,36 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Welcome to</h1>
+    <h2>YOUR FUTURE</h2>
+    <p id="mellem-rubrik">Enter the following information about yourself</p>
+
   <main>
-      <h2>Welcome to</h2>
-      <h1>El1t13N0Sc0p3r69s</h1>
-      <h2>Elite gaming advice</h2>
+      <label for="game-selection">Whats your name?</label>
+      <input id="game-selection" type="text"><br>
+      <label for="problem-in-question"> Whats your biggest fear? </label>
+      <input id="problem-in-question" type="text">
+      <label id="status-text">Relationship status</label>
+        <form>
+          <input type="radio" id="stuck-option" name="fav_language" value="stuck-option">
+          <label for="stuck-option">Single</label><br>
+          <input type="radio" id="game-is-hard-option" name="fav_language" value="game-is-hard-option">
+          <label for="game-is-hard-option">In a relationship</label><br>
+          <input type="radio" id="mechanic-option" name="fav_language" value="mechanic-option">
+          <label for="mechanic-option">Waiting for Tesla robots to become available to the public</label>
+        </form>
+      <button id="button">Get Fortune</button>
 
-      <h3>Greet1ng5 n00b - H0w can the m1ghty El1t13N0Sc0p3r69 a5515t you t0day? </h3>
-      <div id="main-wrapper">
-          <label for="game-selection"> What game troubles you little one?</label>
-          <input id="game-selection" type="text">
-          <label for="type-of-situation"> Whats your problem?</label>
-              <form>
-                  <input type="radio" id="stuck-option" name="fav_language" value="stuck-option">
-                  <label for="stuck-option">Stuck</label><br>
-                  <input type="radio" id="game-is-hard-option" name="fav_language" value="game-is-hard-option">
-                  <label for="game-is-hard-option">Game is hard</label><br>
-                  <input type="radio" id="mechanic-option" name="fav_language" value="mechanic-option">
-                  <label for="mechanic-option">There is a mechanic in the game i dont udnerstand</label>
-             </form>
-          <label for="problem-in-question"> Elaborate your situation peasant </label>
-          <input id="problem-in-question" type="text">
+      <div class="loader" id="loader"></div>
 
-        <button id="button">Get story</button>
+      <div class="bottom-section">
+          <div id="black-space"></div>
+          <div id="user-wrapper" class="hidden"></div>
       </div>
-    <div id="user-wrapper"></div>
-      <span class="hidden-loading"> <img src="" alt="cool image"></img></span>
   </main>
+<div class="bottom-section">
+      <span class="hidden-loading"> <img src="" alt="cool image"></img></span>
+</div>
   <script src="main.js"></script>
 </body>
 </html>

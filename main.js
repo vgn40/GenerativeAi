@@ -7,10 +7,6 @@ const userIsStuck =document.getElementById("stuck-option")
 const userStrugglesWithGame =document.getElementById("game-is-hard-option")
 const userStrugglesWithMechanic =document.getElementById("mechanic-option")
 const userElaboration = document.getElementById("problem-in-question")
-console.log("hello")
-
-console.log("hello")
-
 function fetchText(query) {
     return fetch(
         "https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct",
@@ -45,8 +41,6 @@ function fetchText(query) {
         });
 }
 
-console.log("hello")
-
 async function getGeneratedText(query) {
     // We can call this function 8 times before we respond
     let counter = 0;
@@ -59,57 +53,67 @@ async function getGeneratedText(query) {
         console.log(generatedText)
         counter++;
     }
-    return generatedText;
+    return generatedText
 }
 
+
+/* chatgpt til loader */
+const loader = document.getElementById("loader");
+function showLoader() {
+    loader.style.display = "block";
+}
+function hideLoader() {
+    loader.style.display = "none";
+}
+fetch("https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct\"")
+    .then(response => {
+        // Process response
+        hideLoader(); // Hide loader when response is received
+    })
+    .catch(error => {
+        // Handle errors
+        hideLoader(); // Hide loader in case of errors
+    });
+
+/* Chatgpt slut */
+
 buttonClicked.addEventListener("click", function () {
-    console.log("clicked")
-
+    showLoader();
     const userGameSelected = userGame.value
-    const stuckTrue = userIsStuck.value
-    const gameIsHardTrue = userStrugglesWithGame.value
-    const mechanicStruggleTrue = userStrugglesWithMechanic.value
+    const stuckTrue = userIsStuck.checked
+    const gameIsHardTrue = userStrugglesWithGame.checked
+    const mechanicStruggleTrue = userStrugglesWithMechanic.checked
     const situationElaboration = userElaboration.value
-
-    const firstPromptToRemove = "I am currently playing ";
-    const secondPromptToRemove = "im having the current issue that: ";
-    const thirdPromptToRemove = "to be specific";
+    const firstPromptToRemove = "I want you to act like a old scary fortune teller, and I want you to tell me a give me a fictive fortune reading and tell me about my future - please base your response based on the following real details about me - My name is ";
+    const secondPromptToRemove = "my current relationships status is:";
+    let thirdPromptToRemove = "my worst fear is";
     let letPrompt = "";
-    if (stuckTrue === "true") {
-        letPrompt = "I am currently stuck";
-    } else if (gameIsHardTrue === "true") {
-        letPrompt = "The game is way too hard";
-    } else if (mechanicStruggleTrue === "true") {
-        letPrompt = "I am having difficulty with a certain mechanic";
-    }
+        if (stuckTrue) {
+            letPrompt = "Single";
+        } else if (gameIsHardTrue) {
+            letPrompt = "In a relationship";
+        } else if (mechanicStruggleTrue) {
+            letPrompt = "Waiting for Tesla robots to become available to the public";
+        }
 
-    const fullPrompt = `${firstPromptToRemove} ${userGameSelected} ${secondPromptToRemove} ${letPrompt} ${thirdPromptToRemove} ${situationElaboration}`
+    const fullPrompt = `${firstPromptToRemove} ${userGameSelected} ${secondPromptToRemove} ${letPrompt} ${thirdPromptToRemove} ${situationElaboration}.`
     getGeneratedText(fullPrompt)
         .then(generatedText => {
             const userReplyBox = document.getElementById("user-wrapper");
-            // fik chatGPT til at hjælpe her
-            // Clear the previous content inside userReplyBox
-            while (userReplyBox.firstChild) {
-                userReplyBox.removeChild(userReplyBox.firstChild);
-            }
-            let displayText = generatedText.replace(firstPromptToRemove, '');
-            displayText = displayText.replace(userGameSelected, '');
-            displayText = displayText.replace(secondPromptToRemove, '');
-            displayText = displayText.replace(letPrompt, '');
-            displayText = displayText.replace(thirdPromptToRemove, '');
-            displayText = displayText.replace(situationElaboration, '');
-
+                while (userReplyBox.firstChild) {
+                    userReplyBox.removeChild(userReplyBox.firstChild);
+                }
+            let displayText = generatedText.substring(generatedText.indexOf(".") + 1);
             const chatBesked = document.createElement("p");
-            chatBesked.textContent = displayText.trim(); // Trim any extra spaces
+            chatBesked.innerHTML = displayText.trim();
             userReplyBox.appendChild(chatBesked);
+            userReplyBox.classList.remove("hidden");
+            userReplyBox.style.animation = "slideInFromTop 0.5s ease-in-out";
+            hideLoader();
         })
-        .catch(error => {
-            // Handle errors if needed
-            console.error("Error:", error);
+
+
+        .catch(e => {
+            console.error("Error:", e);
         });
 });
-
-
-/// console.log(generatedText)
-/// ${gameIsHardTrue}${mechanicStruggleTrue}${situationElaboration}${stuckTrue}
-/// button.loading.classList.remove('hidden')
